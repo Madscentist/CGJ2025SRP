@@ -50,7 +50,7 @@ MonoBehaviour:
   canvas: {fileID: 2661968718366253841}
   bubbleRect: {fileID: 780073050147661235}
   bubbleText: {fileID: 1573719232572600957}
-  showTime: 10
+  showTime: 6
 --- !u!1 &2702627041555164624
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9150943, g: 0.06906372, b: 0.06906372, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
