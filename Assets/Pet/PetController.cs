@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Pet;
 using UnityEngine;
 
 namespace Gameplay
@@ -15,6 +16,8 @@ namespace Gameplay
         [Header("随机走停设置")] public float walkTime = 3f; // 行走时长
         public float idleTime = 2f; // 停留时长
 
+        public SpeechBubble bubble;
+        
         private bool isWalk;
         private Vector3 moveDirection;
         private Vector3 originScale;
@@ -36,6 +39,13 @@ namespace Gameplay
             {
                 Move();
             }
+            
+            var flipSign = Mathf.Sign(transform.localScale.x);
+            
+            var scaleRate = Mathf.Pow(heavy, 1f / 3f);
+            transform.localScale = new Vector3(flipSign * scaleRate * Mathf.Abs(originScale.x),
+                scaleRate  * originScale.y,
+                scaleRate  * originScale.z);
         }
 
         IEnumerator WalkIdleLoop()
@@ -101,14 +111,13 @@ namespace Gameplay
             }
         }
 
-        public void Feed(int value)
+        public void Feed(int value, string comments)
         {
             heavy += value;
             // 保留翻转状态，只放大绝对值
-            float flipSign = Mathf.Sign(transform.localScale.x);
-            transform.localScale = new Vector3(flipSign * Mathf.Pow(heavy, 1f / 3f) * Mathf.Abs(originScale.x),
-                Mathf.Pow(heavy, 1f / 3f) * originScale.y,
-                Mathf.Pow(heavy, 1f / 3f) * originScale.z);
+            
+            bubble.SetText(comments);
+            
         }
     }
 }

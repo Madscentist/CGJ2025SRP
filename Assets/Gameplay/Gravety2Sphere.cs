@@ -3,7 +3,7 @@ using UnityEngine;
 public class Gravety2Sphere : MonoBehaviour
 {
     [Header("重力参数")]
-    public float gravityForce = 9.81f; // 重力强度
+    public float gravityForce = 3.21f; // 重力强度
     public Transform centerOfMass;    // 球心（默认为脚本挂载对象）
 
     private void Awake()

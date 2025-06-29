@@ -56,8 +56,6 @@ namespace Gameplay
         {
             if (selectedObject != null)
             {
-                // 这里可以移除选中效果
-                Debug.Log("取消选中: " + selectedObject.name);
                 selectedObject = null;
                 isRotating = false;
             }
@@ -78,6 +76,7 @@ namespace Gameplay
                     {
                         // 选中新对象
                         SelectObject(hit.collider.gameObject);
+                        GetComponent<PetManager>().SelectPet(hit.collider.gameObject);
                     }
                     else
                     {
@@ -89,6 +88,7 @@ namespace Gameplay
                 {
                     // 点击了空白处，取消选择
                     DeselectObject();
+                    GetComponent<PetManager>().QuitQr();
                 }
             }
         }
@@ -99,7 +99,6 @@ namespace Gameplay
             DeselectObject(); // 先取消当前选择
 
             selectedObject = obj;
-            Debug.Log(selectedObject.name);
             Vector3 sourceDirection = (selectedObject.transform.position - instanceB.transform.position).normalized;
             Vector3 targetDirection = new Vector3(0, 1, -4).normalized;
             targetRotation = Quaternion.FromToRotation(sourceDirection, targetDirection) * instanceB.transform.rotation;
@@ -170,41 +169,38 @@ namespace Gameplay
 
         }
 
-        // 右键拖拽旋转（长按）
+        // 左键拖拽旋转（长按）
         void HandleRightClickDragRotation()
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(0))
             {
                 rightClickHoldTime += Time.deltaTime;
 
                 // 按住超过0.3秒视为开始拖拽
-                if (rightClickHoldTime >= 0.7f)
+                if (rightClickHoldTime >= 0.1f)
                 {
-                    Debug.Log("右键拖拽");
                     if (!isDragging)
                     {
                         // 开始拖拽
-                        Debug.Log("开始拖拽");
                         isDragging = true;
                         dragStartAngle = Input.mousePosition;
                     }
                     else
                     {
                         // 持续拖拽
-                        Debug.Log("持续拖拽");
                         Vector2 currentAngle = Input.mousePosition;
                         Vector2 angleDelta = currentAngle - dragStartAngle;
 
                         //2. 旋转instanceB
-                        instanceB.transform.Rotate(Vector3.up, -angleDelta.x, Space.World);
-                        instanceB.transform.Rotate(Vector3.right, angleDelta.y, Space.World);
+                        instanceB.transform.Rotate(Vector3.up, -angleDelta.x * dragRotationSpeed, Space.World);
+                        instanceB.transform.Rotate(Vector3.right, angleDelta.y * dragRotationSpeed, Space.World);
 
                         dragStartAngle = currentAngle;
                     }
                 }
             }
 
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 isDragging = false;
                 rightClickHoldTime = 0f;

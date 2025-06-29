@@ -13,6 +13,18 @@ namespace Gameplay
         [SerializeField] private SpriteRenderer headRenderer; // 需要换贴图的部位
         [SerializeField] private string petTextureUrl; // 从后端 JSON 里取
 
+
+        public void Config(string path)
+        {
+            petTextureUrl = path;
+            SetAvatar();
+        }
+
+        private void Start()
+        {
+            // SetAvatar();
+        }
+
         public void SetAvatar()
         {
             LoadTextureFromPath(petTextureUrl);
